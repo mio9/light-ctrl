@@ -1,6 +1,6 @@
 #include <Arduino.h>
 // #include <SPI.h>
-// #include <Wire.h>
+#include <Wire.h>
 // #include <Adafruit_GFX.h>
 #include <credential.h>
 #include <Adafruit_SSD1306.h>
@@ -10,9 +10,10 @@
 
 void oledCheck();
 
+void ledScroller(void *parameters);
+
 // IO Pins
 #define LED_BOARD_DATA_PIN GPIO_NUM_1
-
 
 // OLED things
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
@@ -23,18 +24,20 @@ void oledCheck();
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 // LED things
-#define NUM_LEDS 768 // 256*3
+#define NUM_LEDS 64 // 256*3
 CRGB leds[NUM_LEDS];
 
-void someTask(void *parameters){
+void someTask(void *parameters)
+{
   Serial.println("Some Task");
-  vTaskDelay(1000 / portTICK_PERIOD_MS);
+  delay(1000);
 }
 
 void setup()
 {
   pinMode(GPIO_NUM_3, INPUT_PULLDOWN);
-
+  Wire.setPins(GPIO_NUM_5, GPIO_NUM_4);
+  Wire.begin();
   Serial.begin(115200);
 
   // init display
@@ -45,6 +48,7 @@ void setup()
       ;
   }
   oledCheck();
+  delay(1000);
 
   // Init LEDs
   FastLED.addLeds<WS2812B, LED_BOARD_DATA_PIN, GRB>(leds, NUM_LEDS);
@@ -77,38 +81,45 @@ void setup()
   display.println(lanIP.toString());
   display.display();
 
-  xTaskCreate(someTask, "led", 1024, NULL, 0, NULL);
-
-  xTaskCreatePinnedToCore(someTask, "led", 1024 * 5, NULL, 5, NULL, 1);
+  xTaskCreate(ledScroller, "led_scroll", 1024, NULL, 0, NULL);
 }
 
 void loop()
 {
-  Serial.print(digitalRead(GPIO_NUM_3));
-  // delay(1000);
-  for (int i = 0; i < NUM_LEDS; i++)
+  printf(".");
+  vTaskDelay(1000 / portTICK_RATE_MS);
+
+}
+
+void ledScroller(void *parameters)
+{
+  while (1)
   {
-    leds[i] = CRGB::Green;
-    FastLED.show();
-    delay(2);
-  }
-  for (int i = 0; i < NUM_LEDS; i++)
-  {
-    leds[i] = CRGB::Red;
-    FastLED.show();
-    delay(2);
+    for (int i = 0; i < NUM_LEDS; i++)
+    {
+      leds[i] = CRGB::Green;
+      FastLED.show();
+      delay(2);
+    }
+    for (int i = 0; i < NUM_LEDS; i++)
+    {
+      leds[i] = CRGB::Red;
+      FastLED.show();
+      delay(2);
+    }
   }
 }
 
-void oledCheck(){
+void oledCheck()
+{
+  Serial.println("Checking OLED");
   display.clearDisplay();
 
-  for(int16_t i=0; i<display.height()/2-2; i+=2) {
-    display.drawRoundRect(i, i, display.width()-2*i, display.height()-2*i,
-      display.height()/4, SSD1306_WHITE);
+  for (int16_t i = 0; i < display.height() / 2 - 2; i += 2)
+  {
+    display.drawRoundRect(i, i, display.width() - 2 * i, display.height() - 2 * i,
+                          display.height() / 4, SSD1306_WHITE);
     display.display();
     delay(1);
   }
-
-  delay(1000);
 }
