@@ -39,7 +39,7 @@ void setup()
   Wire.setPins(GPIO_NUM_5, GPIO_NUM_4);
   Wire.begin();
   Serial.begin(115200);
-
+  
   // init display
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C))
   { // Address 0x3D for 128x64
