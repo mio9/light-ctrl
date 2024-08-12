@@ -2,3 +2,5 @@
 version = 1
 firmware = '.pio/build/airm2m_core_esp32c3/firmware.bin'
 elf = '.pio/build/airm2m_core_esp32c3/firmware.elf'
+from = "localhost:13106"
+to = "target:13106"

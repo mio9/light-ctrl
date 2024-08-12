@@ -1,11 +1,14 @@
 #include <Arduino.h>
-// #include <SPI.h>
 #include <Wire.h>
-// #include <Adafruit_GFX.h>
-#include <credential.h>
+#include "credential.h"
+// the oled display
 #include <Adafruit_SSD1306.h>
+// the wifi
 #include <WiFi.h>
-#include <WebServer.h>
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+
+// the main led
 #include <FastLED.h>
 
 void oledCheck();
