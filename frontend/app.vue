@@ -1,13 +1,13 @@
 <template>
   <div>
     <div>
-      <input type="color" placeholder="Type hex..." v-model="hexInput" />{{ hexInput }}
-      <button @mousedown.prevent="lightOn" @mouseup.prevent="lightOff">Light</button>
+      <input class="w-[300px] h-[200px]" type="color" placeholder="Type hex..." v-model="hexInput" />{{ hexInput }}
+      <button class="btn btn-primary w-1/3" @mousedown.prevent="lightOn" @mouseup.prevent="lightOff">Light</button>
     </div>
 
     <div>
-      <input type="text" v-model="wsUrl">
-      <button @click="connect">Connect</button>
+      <input class="input input-bordered" type="text" v-model="wsUrl">
+      <button :class="`btn ${wsConnected? 'btn-success': 'btn-primary'}`" @click="connect">Connect</button>
     </div>
 
     <p>WS Connected: {{ wsConnected }}</p>

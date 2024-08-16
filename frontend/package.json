@@ -13,5 +13,9 @@
     "nuxt": "^3.12.4",
     "vue": "latest",
     "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "daisyui": "^4.12.10",
+    "@nuxtjs/tailwindcss": "^6.12.1"
   }
 }
