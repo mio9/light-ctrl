@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <input type="text" placeholder="Type hex..." v-model="hexInput" />
+      <input type="color" placeholder="Type hex..." v-model="hexInput" />{{ hexInput }}
       <button @mousedown.prevent="lightOn" @mouseup.prevent="lightOff">Light</button>
     </div>
 
@@ -45,7 +45,8 @@ function connect() {
 
 
 function lightOn() {
-  sendData(hexInput.value);
+  const color = hexInput.value.slice(1)
+  sendData(color);
 }
 
 function lightOff() {
