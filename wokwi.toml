@@ -2,6 +2,7 @@
 version = 1
 firmware = '.pio/build/debug/firmware.bin'
 elf = '.pio/build/debug/firmware.elf'
+gdbServerPort = 3333
 
 [[net.forward]]
 from = "localhost:1880"

@@ -1,5 +1,7 @@
 #include "web.h"
+#include "config.h"
 #include <FastLED.h>
+#include <base64.hpp>
 
 void initWebSocket(AsyncWebServer *server, AsyncWebSocket *ws)
 {
@@ -32,15 +34,26 @@ void handleWebSocketMessage(AsyncWebSocket *ws, void *arg, uint8_t *data, size_t
     AwsFrameInfo *info = (AwsFrameInfo *)arg;
     if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
     {
+        uint8_t ledData[3];
+        unsigned char base64[3] = {0};
         for (int i = 0; i < len; i++)
         {
-            Serial.print((int)data[i]);
+           base64[i] = data[i];
         }
+        decode_base64(base64, ledData);
         Serial.print("\n");
-        // Serial.println(data);
+        
+
         CRGB *leds = FastLED.leds();
+        CRGB color = CRGB(ledData[0], ledData[1], ledData[2]);
 
-
+        // set color to all led
+        for (int i = 0; i < NUM_LEDS; i++){
+            leds[i] = color;
+        }
+        FastLED.show();
+        
+        
 
         // if (strcmp((char*)data, "toggle") == 0) {
         //   Serial.println("Toggling LED");
