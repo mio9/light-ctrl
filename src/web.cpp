@@ -41,7 +41,6 @@ void handleWebSocketMessage(AsyncWebSocket *ws, void *arg, uint8_t *data, size_t
            base64[i] = data[i];
         }
         decode_base64(base64, ledData);
-        Serial.print("\n");
         
 
         CRGB *leds = FastLED.leds();
