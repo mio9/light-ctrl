@@ -1,6 +1,6 @@
+#include "main.h"
 #include <Arduino.h>
 #include <Wire.h>
-#include "credential.h"
 // the oled display
 #include <Adafruit_SSD1306.h>
 // the wifi
@@ -11,15 +11,17 @@
 // the main led
 #include <FastLED.h>
 
+#include "credential.h"
 #include "config.h"
-
-void oledCheck();
-
-void ledScroller(void *parameters);
+#include "web.h"
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 CRGB leds[NUM_LEDS];
+
+AsyncWebServer server(80);
+AsyncWebSocket ws("/ws");
+
 
 void someTask(void *parameters)
 {
@@ -42,7 +44,7 @@ void setup()
       ;
   }
   oledCheck();
-  delay(1000);
+  // delay(1000);
 
   // Init LEDs
   FastLED.addLeds<WS2812B, LED_BOARD_DATA_PIN, GRB>(leds, NUM_LEDS);
@@ -75,7 +77,17 @@ void setup()
   display.println(lanIP.toString());
   display.display();
 
-  xTaskCreate(ledScroller, "led_scroll", 1024, NULL, 0, NULL);
+  initWebSocket(&server, &ws);
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(200, "text/html", "<p>Hello</p>");
+  });
+
+  // Start web server
+  server.begin();
+  display.println("Server started.");
+  display.display();
+
+  // xTaskCreate(ledScroller, "led_scroll", 1024, NULL, 0, NULL);
 }
 
 void loop()
@@ -111,9 +123,16 @@ void oledCheck()
 
   for (int16_t i = 0; i < display.height() / 2 - 2; i += 2)
   {
-    display.drawRoundRect(i, i, display.width() - 2 * i, display.height() - 2 * i,
-                          display.height() / 4, SSD1306_WHITE);
+    display.drawRect(i, i, display.width() - 2 * i, display.height() - 2 * i,
+                           SSD1306_WHITE);
     display.display();
     delay(1);
   }
+  display.drawRect(0, 0, display.width() - 1, display.height() - 1, SSD1306_WHITE);
+  display.display();
+  delay(500);
+  display.fillRect(0, 0, display.width() - 1, display.height() - 1, SSD1306_WHITE);
+  display.display();
+  delay(500);
+  display.clearDisplay();
 }
