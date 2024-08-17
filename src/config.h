@@ -8,4 +8,4 @@
 #define OLED_RESET -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 
 // LED things
-#define NUM_LEDS 64 // 256*3
+#define NUM_LEDS 768 // 256*3

@@ -32,7 +32,7 @@ void someTask(void *parameters)
 void setup()
 {
   pinMode(GPIO_NUM_3, INPUT_PULLDOWN);
-  Wire.setPins(GPIO_NUM_5, GPIO_NUM_4);
+  Wire.setPins(GPIO_NUM_4, GPIO_NUM_5);
   Wire.begin();
   Serial.begin(115200);
   
@@ -76,6 +76,8 @@ void setup()
   display.println("This device IP:");
   display.println(lanIP.toString());
   display.display();
+
+
 
   initWebSocket(&server, &ws);
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
