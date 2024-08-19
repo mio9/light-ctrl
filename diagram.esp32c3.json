@@ -67,11 +67,9 @@
     [ "ring3:VCC", "bb1:tp.25", "red", [ "v0" ] ],
     [ "ring4:GND", "bb1:tn.24", "black", [ "v0" ] ],
     [ "ring4:VCC", "bb1:tp.24", "red", [ "v0" ] ],
-    [ "oled1:GND", "bb1:4b.h", "", [ "$bb" ] ],
-    [ "oled1:VCC", "bb1:5b.h", "", [ "$bb" ] ],
-    [ "oled1:SCL", "bb1:6b.h", "", [ "$bb" ] ],
-    [ "oled1:SDA", "bb1:7b.h", "", [ "$bb" ] ],
     [ "oled1:GND", "bb1:tn.4", "black", [ "v-105.6" ] ],
+    [ "bb1:16t.a", "bb1:tn.13", "green", [ "v0" ] ],
+    [ "oled1:VCC", "esp:3V3.2", "red", [ "v-96", "h19.35" ] ],
     [ "esp:0", "bb1:22t.b", "", [ "$bb" ] ],
     [ "esp:1", "bb1:21t.b", "", [ "$bb" ] ],
     [ "esp:2", "bb1:27t.b", "", [ "$bb" ] ],
@@ -87,10 +85,12 @@
     [ "esp:5V.1", "bb1:18t.b", "", [ "$bb" ] ],
     [ "esp:5V.2", "bb1:17t.b", "", [ "$bb" ] ],
     [ "esp:GND.5", "bb1:16t.b", "", [ "$bb" ] ],
-    [ "bb1:16t.a", "bb1:tn.13", "green", [ "v0" ] ],
-    [ "oled1:VCC", "esp:3V3.2", "red", [ "v-96", "h19.35" ] ],
-    [ "oled1:SCL", "esp:4", "green", [ "v0" ] ],
-    [ "esp:5", "oled1:SDA", "green", [ "v0" ] ]
+    [ "oled1:GND", "bb1:4b.h", "", [ "$bb" ] ],
+    [ "oled1:VCC", "bb1:5b.h", "", [ "$bb" ] ],
+    [ "oled1:SCL", "bb1:6b.h", "", [ "$bb" ] ],
+    [ "oled1:SDA", "bb1:7b.h", "", [ "$bb" ] ],
+    [ "oled1:SDA", "esp:4", "green", [ "v0" ] ],
+    [ "esp:5", "oled1:SCL", "green", [ "v0" ] ]
   ],
   "dependencies": {}
 }
